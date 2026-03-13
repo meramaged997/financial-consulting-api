@@ -1,0 +1,6 @@
+@Startawy.API_HostAddress = http://localhost:5150
+
+GET {{Startawy.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
