@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections.Generic;
 
 namespace Startawy.Domain.Entities;
@@ -16,6 +15,10 @@ public partial class Subscription
     public string? TrialType { get; set; }
 
     public string UserId { get; set; } = null!;
+
+    public string? PackageId { get; set; }
+
+    public virtual Package? Package { get; set; }
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 

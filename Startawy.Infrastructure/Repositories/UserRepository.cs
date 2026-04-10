@@ -18,12 +18,18 @@ public class UserRepository : IUserRepository
         => await _context.Users.FindAsync(userId);
 
     public async Task<User?> GetByEmailAsync(string email)
-        => await _context.Users
-            .FirstOrDefaultAsync(u => u.Email == email.ToLower());
+    {
+        var normalized = email.ToLower().Trim();
+        return await _context.Users
+            .FirstOrDefaultAsync(u => u.Email.ToLower() == normalized);
+    }
 
     public async Task<bool> EmailExistsAsync(string email)
-        => await _context.Users
-            .AnyAsync(u => u.Email == email.ToLower());
+    {
+        var normalized = email.ToLower().Trim();
+        return await _context.Users
+            .AnyAsync(u => u.Email.ToLower() == normalized);
+    }
 
     public async Task<User> CreateAsync(User user)
     {

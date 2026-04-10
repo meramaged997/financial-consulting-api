@@ -1,4 +1,4 @@
-﻿using Startawy.Domain.Entities;
+using Startawy.Domain.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -12,6 +12,7 @@ public partial class Consultant
     public string? Specialization { get; set; }
     public string? Availability { get; set; }
     public DateOnly? Date { get; set; }
+    public decimal SessionRate { get; set; } = 0m;
     public virtual ICollection<Session> Sessions { get; set; } = new List<Session>();
     public virtual User User { get; set; } = null!;
 }

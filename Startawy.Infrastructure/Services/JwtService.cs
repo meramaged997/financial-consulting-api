@@ -23,7 +23,7 @@ public class JwtService : IJwtService
         _expiryMinutes = int.Parse(config["Jwt:ExpiryMinutes"] ?? "60");
     }
 
-    public string GenerateToken(User user)
+    public string GenerateToken(User user, string packageType)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -33,9 +33,11 @@ public class JwtService : IJwtService
             new Claim(JwtRegisteredClaimNames.Sub,   user.UserId),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.Name,  user.Name),
+            new Claim(ClaimTypes.NameIdentifier,     user.UserId),
             new Claim(ClaimTypes.Role,               user.Type),
             new Claim("userId",                      user.UserId),
             new Claim("role",                        user.Type),
+            new Claim("package",                     packageType),
             new Claim(JwtRegisteredClaimNames.Jti,   Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat,
                       DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),

@@ -53,15 +53,25 @@ public class GlobalExceptionMiddleware
 
         if (_env.IsDevelopment())
         {
+            static IEnumerable<object> Flatten(Exception ex)
+            {
+                var cur = ex;
+                while (cur is not null)
+                {
+                    yield return new
+                    {
+                        Type = cur.GetType().FullName,
+                        Message = cur.Message,
+                        StackTrace = cur.StackTrace
+                    };
+                    cur = cur.InnerException;
+                }
+            }
+
             var devInfo = new
             {
                 TraceId = context.TraceIdentifier,
-                Exception = new
-                {
-                    Type = exception.GetType().FullName,
-                    Message = exception.Message,
-                    StackTrace = exception.StackTrace
-                }
+                Exceptions = Flatten(exception).ToArray()
             };
 
             var wrapper = new

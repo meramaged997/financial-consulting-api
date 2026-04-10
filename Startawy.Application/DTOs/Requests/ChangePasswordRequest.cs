@@ -1,0 +1,7 @@
+namespace Startawy.Application.DTOs.Requests;
+
+public record ChangePasswordRequest(
+    string CurrentPassword,
+    string NewPassword,
+    string? ConfirmPassword = null
+);
